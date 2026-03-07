@@ -1,0 +1,491 @@
+/* src/styles/global.css */
+/* GLOBAL STYLES - Applied across all components */
+@import './theme.css';
+
+/* ========================================
+   RESET / NORMALIZE - Browser defaults
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-obsidian);
+  background-color: var(--color-linen);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ========================================
+   TYPOGRAPHY - Headings, paragraphs, text
+   Used in: Header, Hero, Cards, Footer
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+  color: var(--color-obsidian);
+}
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: var(--space-sm);
+}
+
+/* ========================================
+   LINKS - Anchor tag styling
+   Used in: Throughout all sections
+   ======================================== */
+a {
+  color: var(--color-slate-blue);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+a:hover {
+  color: var(--color-brick-red);
+}
+
+/* ========================================
+   BUTTONS - Button component styling
+   Used in: Hero (CTA buttons), Header
+   File: src/components/UI/Button.jsx
+   ======================================== */
+/* Reset button defaults */
+.btn {
+  transition: all var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* ===== PRIMARY BUTTON ===== */
+/* Hero 'View My Work' button style */
+.btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+
+/* Primary button hover state - lift up and add shadow */
+.btn-primary:hover {
+  background-color: var(--btn-primary-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(183, 65, 62, 0.25);
+}
+
+/* Primary button active state - return to normal position */
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ===== SECONDARY BUTTON ===== */
+/* Hero 'Let's Talk' button style */
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 2px solid var(--btn-secondary-border);
+}
+
+/* Secondary button hover state */
+.btn-secondary:hover {
+  background-color: var(--btn-secondary-bg-hover);
+  color: var(--btn-secondary-text-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(40, 85, 189, 0.25);
+}
+
+/* Secondary button active state */
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* ===== OUTLINE BUTTON ===== */
+/* Alternative button style with outline */
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-slate-blue);
+  border: 1px solid var(--color-slate-blue);
+}
+
+/* Outline button hover state */
+.btn-outline:hover {
+  background-color: var(--color-slate-blue);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(40, 85, 189, 0.25);
+}
+
+/* ===== BUTTON SIZES ===== */
+/* Small button variant (used in Header) */
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Medium button variant (used in Hero) */
+.btn-medium {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+}
+
+/* ========================================
+   IMAGES - Image element styling
+   Used in: Header (profile), Hero (illustration)
+   ======================================== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   LISTS - List element defaults
+   Used in: Throughout components
+   ======================================== */
+ul, ol {
+  list-style: none;
+}
+
+/* ========================================
+   FORM ELEMENTS - Input, textarea, select
+   Used in: Contact forms, modals
+   ======================================== */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  transition: border-color var(--transition-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-slate-blue);
+}
+
+/* ========================================
+   CONTAINER - Layout wrapper class
+   Used in: All major sections
+   ======================================== */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* ========================================
+   SECTION SPACING - Default section padding
+   Used in: Hero, Services, Footer, etc.
+   ======================================== */
+section {
+  padding: var(--space-xxl) var(--container-padding);
+}
+
+/* ========================================
+   FINAL CTA SECTION (contact) - ensure light text
+   ======================================== */
+#contact {
+  background-color: var(--color-slate-blue); /* matches inline style fallback */
+  color: var(--color-white);
+}
+
+#contact h2,
+#contact p,
+#contact .stat-number,
+#contact .stat-label {
+  color: inherit; /* inherit white from container */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* override buttons inside FinalCTA when needed */
+#contact .btn-outline {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+/* ========================================
+   SOCIAL PROOF SECTION - ensure contrast
+   ======================================== */
+#social-proof {
+  background-color: var(--color-linen);
+  color: var(--color-obsidian);
+}
+
+#social-proof .stat-item {
+  background-color: var(--color-white);
+}
+
+/* ========================================
+   UTILITY CLASSES - Reusable styling
+   ======================================== */
+
+/* ===== TEXT COLOR UTILITIES ===== */
+/* Apply text color classes to any element */
+.text-primary { color: var(--color-slate-blue); }
+.text-accent { color: var(--color-brick-red); }
+.text-light { color: var(--color-white); }
+.text-dark { color: var(--color-obsidian); }
+
+/* ===== BACKGROUND COLOR UTILITIES ===== */
+/* Apply background colors to any element */
+.bg-linen { background-color: var(--color-linen); }
+.bg-primary { background-color: var(--color-slate-blue); }
+.bg-accent { background-color: var(--color-brick-red); }
+.bg-white { background-color: var(--color-white); }
+
+/* ===== MARGIN UTILITIES ===== */
+/* Responsive margin spacing */
+.mt-1 { margin-top: var(--space-xs); }
+.mt-2 { margin-top: var(--space-sm); }
+.mt-3 { margin-top: var(--space-md); }
+.mt-4 { margin-top: var(--space-lg); }
+.mt-5 { margin-top: var(--space-xl); }
+
+.mb-1 { margin-bottom: var(--space-xs); }
+.mb-2 { margin-bottom: var(--space-sm); }
+.mb-3 { margin-bottom: var(--space-md); }
+.mb-4 { margin-bottom: var(--space-lg); }
+.mb-5 { margin-bottom: var(--space-xl); }
+
+/* ===== PADDING UTILITIES ===== */
+.p-2 { padding: var(--space-sm); }
+.p-3 { padding: var(--space-md); }
+.p-4 { padding: var(--space-lg); }
+.p-5 { padding: var(--space-xl); }
+
+/* ===== FLEX UTILITIES ===== */
+/* Flexbox layout helpers */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: var(--space-xs); }
+.gap-2 { gap: var(--space-sm); }
+.gap-3 { gap: var(--space-md); }
+.gap-4 { gap: var(--space-lg); }
+
+/* ===== GRID UTILITIES ===== */
+/* Grid layout helpers */
+.grid { display: grid; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ===== TEXT ALIGNMENT UTILITIES ===== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* ========================================
+   ANIMATIONS - Keyframes and animate classes
+   Used in: Fade-in effects, loading states
+   ======================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.8s ease forwards;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.8s ease forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Animation delays */
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+.delay-4 { animation-delay: 0.8s; }
+
+/* ===== RESPONSIVE DESIGN ===== */
+/* Mobile */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.25rem; }
+  
+  section {
+    padding: var(--space-xl) var(--space-md);
+  }
+  
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 0 var(--space-md);
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+  
+  body {
+    background: white;
+    color: rgb(206, 34, 34);
+  }
+}
+
+/* ===== SCROLLBAR STYLING (Optional) ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-linen);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-slate-blue);
+  border-radius: var(--border-radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brick-red);
+}
+
+/* ===== SELECTION STYLING ===== */
+::selection {
+  background-color: var(--color-slate-blue);
+  color: var(--color-white);
+}
+
+::-moz-selection {
+  background-color: var(--color-slate-blue);
+  color: var(--color-white);
+}
+
+/* ===== LOADING STATES ===== */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 3px solid var(--color-light-gray);
+  border-top-color: var(--color-slate-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}

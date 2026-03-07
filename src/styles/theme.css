@@ -1,0 +1,96 @@
+/* src/styles/theme.css */
+/* MASTER COLOR AND SPACING DEFINITIONS - Used by all components */
+:root {
+  /* ===== COLOR PALETTE - BASE COLORS ===== */
+  /* These colors are used across all sections (Header, Footer, Hero, etc.) */
+  --color-linen: #030303d3;         /* Primary background color - used in Header, Hero, Footer */
+  --color-slate-blue: #1274b685;      /* Primary accent - used in Links, Buttons, Hero section */
+  --color-brick-red: #B7413E;       /* Secondary accent - used in Headers, Buttons, CTA */
+  --color-obsidian: #030305;        /* Text color - used throughout all text content */
+  --color-light-gray: #e6e5e5;      /* Border/divider color - used in Header, Footer borders */
+  --color-white: #272525;           /* Card backgrounds - used in Header profile container, Cards */
+  
+  /* ===== UTILITY COLORS - Alert and Status ===== */
+  /* Used for alerts, notifications, status indicators across all components */
+  --color-success: #2E7D32;         /* Success messages, checkmarks */
+  --color-warning: #ED6A02;         /* Warning messages, caution indicators */
+  --color-error: #D32F2F;           /* Error messages, validation failures */
+  
+  /* ===== TYPOGRAPHY - Font Families ===== */
+  /* Used in specific components */
+  --font-canvas: 'Playfair Display', serif;   /* Hero headline 'Canvas' text */
+  --font-code: 'Fira Code', monospace;        /* Hero headline 'Code' text */
+  --font-body: 'Inter', sans-serif;           /* Body text for all components */
+  
+  /* ===== SPACING SCALE ===== */
+  /* Consistent spacing used throughout all components */
+  --space-xs: 0.5rem;     /* Small gaps - button padding, icon spacing */
+  --space-sm: 1rem;       /* Standard gaps - section dividers */
+  --space-md: 1.5rem;     /* Medium gaps - component spacing */
+  --space-lg: 2rem;       /* Large gaps - section spacing */
+  --space-xl: 3rem;       /* Extra large gaps - major section spacing */
+  --space-xxl: 5rem;      /* Largest gaps - Hero and major section padding */
+  
+  /* ===== BORDERS & SHADOWS ===== */
+  /* Used for visual depth and component definition */
+  --border-radius-sm: 4px;      /* Small radius - buttons, inputs */
+  --border-radius-md: 8px;      /* Medium radius - cards, containers */
+  --border-radius-lg: 12px;     /* Large radius - featured sections */
+  --border-radius-xl: 24px;     /* Extra large radius - profile, hero elements */
+  --border-radius-circle: 50%;  /* Profile images, circular badges */
+  
+  --shadow-sm: 0 2px 4px rgba(8, 5, 5, 0.781);    /* Subtle shadows */
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);               /* Medium shadow - cards on hover */
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.05);            /* Large shadow - elevated elements */
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.836);        /* Extra large - modals, important cards */
+  
+  /* ===== ANIMATIONS - Transitions ===== */
+  /* Timing for smooth interactions across all interactive elements */
+  --transition-fast: 0.2s ease;   /* Quick hover feedback */
+  --transition-base: 0.3s ease;   /* Standard transitions - buttons, links */
+  --transition-slow: 0.5s ease;   /* Slow animations - lazy loading, fade-in effects */
+  
+  /* ===== BUTTON STYLES - Used by Button.jsx ===== */
+  /* Colors and hover states for primary and secondary buttons */
+  --btn-primary-bg: var(--color-brick-red);        /* Hero 'View My Work' button background */
+  --btn-primary-bg-hover: #A53528;                 /* Darker red on hover */
+  --btn-primary-text: var(--color-white);         /* Button text color */
+  --btn-secondary-bg: transparent;                /* Hero 'Let's Talk' button background */
+  --btn-secondary-border: var(--color-slate-blue); /* Button border color */
+  --btn-secondary-text: var(--color-obsidian);    /* Button text */
+  --btn-secondary-bg-hover: var(--color-slate-blue); /* Fill on hover */
+  --btn-secondary-text-hover: var(--color-white); /* Text color on hover */
+  
+  /* ===== HEADER SPECIFIC COLORS ===== */
+  /* Styling for the sticky header navigation */
+  /* Uses: --color-linen (background), --color-obsidian (text), --color-brick-red (accent) */
+  
+  /* ===== FOOTER SPECIFIC COLORS ===== */
+  /* Styling for the footer section */
+  /* Uses: --color-linen, --color-obsidian, --color-slate-blue accent */
+  
+  /* ===== HERO SECTION COLORS ===== */
+  /* Styling for the main hero section with headline and CTA buttons */
+  /* Uses: --color-linen (background), --color-brick-red (accent), --color-slate-blue (accent) */
+  
+  /* ===== LAYOUT & STRUCTURE ===== */
+  --container-max-width: 1200px;  /* Maximum width for all major sections */
+  --container-padding: 2rem;      /* Horizontal padding for all sections */
+  
+  /* ===== Z-INDEX LAYERS ===== */
+  /* Stacking order for overlapping elements */
+  --z-dropdown: 100;    /* Dropdown menus */
+  --z-sticky: 200;      /* Sticky header */
+  --z-modal: 300;       /* Modal dialogs */
+  --z-popover: 400;     /* Popover tooltips */
+  --z-tooltip: 500;     /* Tooltip hints */
+}
+
+/* ===== DARK MODE SUPPORT (Optional) ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-linen: #0c0b0b;
+    --color-obsidian: #f8f8f8b4;
+    /* … */
+  }
+}

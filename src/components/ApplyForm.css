@@ -1,0 +1,271 @@
+/* src/components/ApplyForm.css */
+/* ApplyForm Specific Styles - Independent from theme.css */
+
+.apply-form-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.apply-form-container {
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.apply-form-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.apply-form-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.apply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.apply-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.apply-form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.apply-form-input,
+.apply-form-select,
+.apply-form-textarea {
+  padding: 0.9rem 1.2rem;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+  background: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.apply-form-input:focus,
+.apply-form-select:focus,
+.apply-form-textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.apply-form-input:hover,
+.apply-form-select:hover,
+.apply-form-textarea:hover {
+  border-color: #999;
+}
+
+.apply-form-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.apply-form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+.apply-form-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.apply-form-submit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.apply-form-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.apply-form-submit-btn:active {
+  transform: translateY(0);
+}
+
+.apply-form-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.apply-form-submit-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.apply-form-submit-btn:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+/* Status Messages */
+.apply-form-message {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.apply-form-message.success {
+  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+  color: #1a4731;
+  border-left: 4px solid #2ecc71;
+}
+
+.apply-form-message.error {
+  background: linear-gradient(135deg, #f78ca0 0%, #f9748f 100%);
+  color: #7f1d1d;
+  border-left: 4px solid #e74c3c;
+}
+
+.apply-form-message.loading {
+  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+  color: #1e3c72;
+  border-left: 4px solid #3498db;
+}
+
+/* Placeholder Styling */
+.apply-form-input::placeholder,
+.apply-form-textarea::placeholder {
+  color: #999;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .apply-form-section {
+    padding: 2rem 1rem;
+  }
+  
+  .apply-form-card {
+    padding: 1.5rem;
+  }
+  
+  .apply-form-title {
+    font-size: 2rem;
+  }
+  
+  .apply-form-submit-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+  }
+}
+
+/* Optional: Add some floating animation to the card */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.apply-form-card {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Custom scrollbar for textarea */
+.apply-form-textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.apply-form-textarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.apply-form-textarea::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+.apply-form-textarea::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
