@@ -303,15 +303,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div style={styles.newsletterContainer}>
-          <h5 style={styles.newsletterTitle}>Stay in the loop</h5>
-          <p style={styles.newsletterText}>
-            {isMobile 
-              ? "Get monthly insights on design & dev." 
-              : "Get monthly insights on design, development, and creative business."}
-          </p>
-          
-        </div>
+        
 
         <div style={styles.bottomBar}>
           <div style={styles.copyright}>
