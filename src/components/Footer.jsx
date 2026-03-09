@@ -1,32 +1,58 @@
 // src/components/Footer.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/theme';
-import './Footer.css'; // We'll create this for additional animations
+import './Footer.css';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [hoveredLink, setHoveredLink] = useState(null);
+  const [email, setEmail] = useState('');
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth <= 480;
+  const isTablet = windowWidth > 480 && windowWidth <= 768;
+  // isSmallDesktop removed since it's not used
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    console.log('Newsletter signup:', email);
+    setEmail('');
+  };
+
+  const quickLinks = [
+    { name: 'Home', href: '#', icon: '🏠' },
+    { name: 'Work', href: '#work', icon: '💼' },
+    { name: 'Services', href: '#services', icon: '⚡' },
+    { name: 'Contact', href: '#contact', icon: '📬' },
+  ];
 
   const styles = {
     footer: {
       backgroundColor: theme.colors.obsidian,
       color: theme.colors.white,
-      padding: theme.spacing?.xxl || '5rem 2rem 2rem',
+      padding: isMobile ? '3rem 1rem 1.5rem' : isTablet ? '4rem 1.5rem 2rem' : '5rem 2rem 2rem',
       position: 'relative',
       overflow: 'hidden',
     },
     container: {
-      maxWidth: theme.containerMaxWidth || '1200px',
+      maxWidth: '1200px',
       margin: '0 auto',
       position: 'relative',
       zIndex: 2,
+      padding: isMobile ? '0 0.5rem' : 0,
     },
-    // Decorative background elements
     decoration: {
       position: 'absolute',
       top: '-150px',
       right: '-100px',
-      width: '400px',
-      height: '400px',
+      width: isMobile ? '200px' : '400px',
+      height: isMobile ? '200px' : '400px',
       borderRadius: '50%',
       background: `radial-gradient(circle, ${theme.colors.brickRed}15, transparent 70%)`,
       zIndex: 1,
@@ -35,29 +61,28 @@ const Footer = () => {
       position: 'absolute',
       bottom: '-200px',
       left: '-150px',
-      width: '500px',
-      height: '500px',
+      width: isMobile ? '250px' : '500px',
+      height: isMobile ? '250px' : '500px',
       borderRadius: '50%',
       background: `radial-gradient(circle, ${theme.colors.slateBlue}15, transparent 70%)`,
       zIndex: 1,
     },
-    // Main content grid
     mainContent: {
       display: 'grid',
-      gridTemplateColumns: '2fr 1fr',
-      gap: theme.spacing?.xl || '4rem',
-      marginBottom: theme.spacing?.xl || '4rem',
+      gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr' : '2fr 1fr',
+      gap: isMobile ? '2rem' : '4rem',
+      marginBottom: isMobile ? '2rem' : '4rem',
     },
-    // Brand section
     brandSection: {
       display: 'flex',
       flexDirection: 'column',
-      gap: theme.spacing?.md || '1.5rem',
+      gap: isMobile ? '1rem' : '1.5rem',
+      textAlign: isMobile ? 'center' : 'left',
     },
     logo: {
-      fontSize: '2.2rem',
+      fontSize: isMobile ? '1.8rem' : '2.2rem',
       fontWeight: 'bold',
-      marginBottom: theme.spacing?.sm || '1rem',
+      marginBottom: isMobile ? '0.5rem' : '1rem',
     },
     canvasPart: {
       fontFamily: theme.fonts.canvas,
@@ -78,186 +103,160 @@ const Footer = () => {
     },
     tagline: {
       fontFamily: theme.fonts.body,
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       opacity: 0.8,
       lineHeight: '1.8',
-      maxWidth: '300px',
+      maxWidth: isMobile ? '100%' : '300px',
       color: theme.colors.white,
+      margin: isMobile ? '0 auto' : 0,
     },
-    // Stats section
     statsContainer: {
       display: 'flex',
-      gap: theme.spacing?.lg || '2rem',
-      marginTop: theme.spacing?.sm || '1rem',
+      justifyContent: isMobile ? 'center' : 'flex-start',
+      gap: isMobile ? '1rem' : '2rem',
+      marginTop: isMobile ? '1rem' : '1rem',
+      flexWrap: 'wrap',
     },
     statItem: {
       display: 'flex',
       flexDirection: 'column',
+      alignItems: isMobile ? 'center' : 'flex-start',
+      minWidth: isMobile ? '80px' : 'auto',
     },
     statNumber: {
-      fontSize: '2rem',
+      fontSize: isMobile ? '1.5rem' : '2rem',
       fontWeight: '700',
       color: theme.colors.brickRed,
       fontFamily: theme.fonts.code,
       lineHeight: 1.2,
     },
     statLabel: {
-      fontSize: '0.85rem',
+      fontSize: isMobile ? '0.75rem' : '0.85rem',
       opacity: 0.6,
       textTransform: 'uppercase',
       letterSpacing: '1px',
     },
-    // Section titles
     sectionTitle: {
       fontFamily: theme.fonts.heading || theme.fonts.body,
-      fontSize: '1.2rem',
+      fontSize: isMobile ? '1.1rem' : '1.2rem',
       fontWeight: '600',
-      marginBottom: theme.spacing?.lg || '2rem',
+      marginBottom: isMobile ? '1.5rem' : '2rem',
       color: theme.colors.white,
       position: 'relative',
       paddingBottom: '0.5rem',
       borderBottom: `2px solid ${theme.colors.brickRed}30`,
+      textAlign: isMobile ? 'center' : 'left',
     },
-    // Quick links
     quickLinks: {
       display: 'flex',
-      flexDirection: 'column',
-      gap: theme.spacing?.sm || '1rem',
+      flexDirection: isMobile ? 'row' : 'column',
+      justifyContent: isMobile ? 'center' : 'flex-start',
+      flexWrap: 'wrap',
+      gap: isMobile ? '1rem' : '1rem',
     },
     quickLink: {
       color: theme.colors.white,
       opacity: 0.7,
       textDecoration: 'none',
       fontFamily: theme.fonts.body,
-      fontSize: '0.95rem',
+      fontSize: isMobile ? '0.9rem' : '0.95rem',
       transition: 'all 0.3s ease',
       display: 'inline-flex',
       alignItems: 'center',
       gap: '0.5rem',
-      padding: '0.3rem 0',
+      padding: isMobile ? '0.5rem' : '0.3rem 0',
       borderBottom: '1px solid transparent',
     },
     quickLinkHover: {
       opacity: 1,
       color: theme.colors.brickRed,
       borderBottomColor: theme.colors.brickRed,
-      transform: 'translateX(5px)',
+      transform: isMobile ? 'none' : 'translateX(5px)',
     },
     linkArrow: {
       fontSize: '1.2rem',
       opacity: 0,
       transition: 'all 0.3s ease',
+      display: isMobile ? 'none' : 'inline',
     },
-    // Bottom bar
     bottomBar: {
       borderTop: `1px solid ${theme.colors.brickRed}20`,
-      paddingTop: theme.spacing?.lg || '2rem',
-      marginTop: theme.spacing?.xl || '3rem',
+      paddingTop: isMobile ? '1.5rem' : '2rem',
+      marginTop: isMobile ? '2rem' : '3rem',
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: isMobile ? 'center' : 'space-between',
       alignItems: 'center',
       flexWrap: 'wrap',
-      gap: theme.spacing?.md || '1.5rem',
+      gap: '1.5rem',
     },
     copyright: {
-      fontSize: '0.9rem',
+      fontSize: isMobile ? '0.8rem' : '0.9rem',
       opacity: 0.6,
       fontFamily: theme.fonts.body,
+      textAlign: isMobile ? 'center' : 'left',
+      width: isMobile ? '100%' : 'auto',
     },
-    // Newsletter
     newsletterContainer: {
-      marginTop: theme.spacing?.xl || '3rem',
-      padding: theme.spacing?.lg || '2rem',
+      marginTop: isMobile ? '2rem' : '3rem',
+      padding: isMobile ? '1.5rem' : '2rem',
       background: 'rgba(255, 255, 255, 0.02)',
-      borderRadius: theme.borderRadius?.lg || '16px',
+      borderRadius: '16px',
       border: '1px solid rgba(255, 255, 255, 0.05)',
       backdropFilter: 'blur(10px)',
     },
     newsletterTitle: {
-      fontSize: '1.2rem',
+      fontSize: isMobile ? '1.1rem' : '1.2rem',
       fontWeight: '600',
       marginBottom: '0.5rem',
       color: theme.colors.white,
+      textAlign: isMobile ? 'center' : 'left',
     },
     newsletterText: {
-      fontSize: '0.9rem',
+      fontSize: isMobile ? '0.85rem' : '0.9rem',
       opacity: 0.7,
-      marginBottom: theme.spacing?.md || '1.5rem',
+      marginBottom: '1.5rem',
+      textAlign: isMobile ? 'center' : 'left',
     },
     newsletterForm: {
       display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
       gap: '1rem',
     },
     newsletterInput: {
       flex: 1,
-      padding: '0.8rem 1.2rem',
+      padding: isMobile ? '0.8rem' : '0.8rem 1.2rem',
       background: 'rgba(255, 255, 255, 0.05)',
       border: `1px solid rgba(255, 255, 255, 0.1)`,
-      borderRadius: theme.borderRadius?.md || '8px',
+      borderRadius: '8px',
       color: theme.colors.white,
       fontFamily: theme.fonts.body,
       outline: 'none',
       transition: 'all 0.3s ease',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      minHeight: isMobile ? '44px' : 'auto',
     },
     newsletterButton: {
-      padding: '0.8rem 2rem',
+      padding: isMobile ? '0.8rem' : '0.8rem 2rem',
       background: `linear-gradient(135deg, ${theme.colors.brickRed}, ${theme.colors.slateBlue})`,
       border: 'none',
-      borderRadius: theme.borderRadius?.md || '8px',
+      borderRadius: '8px',
       color: theme.colors.white,
       fontWeight: '600',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
       fontFamily: theme.fonts.body,
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      minHeight: isMobile ? '44px' : 'auto',
     },
-    // Media queries
-    '@media (max-width: 968px)': {
-      mainContent: {
-        gridTemplateColumns: '1fr',
-      },
-    },
-    '@media (max-width: 768px)': {
-      mainContent: {
-        gridTemplateColumns: '1fr',
-      },
-      bottomBar: {
-        flexDirection: 'column',
-        textAlign: 'center',
-      },
-      newsletterForm: {
-        flexDirection: 'column',
-      },
-    },
-  };
-
-  // Quick links
-  const quickLinks = [
-    { name: 'Home', href: '#', icon: '🏠' },
-    { name: 'Work', href: '#work', icon: '💼' },
-    { name: 'Services', href: '#services', icon: '⚡' },
-    { name: 'Contact', href: '#contact', icon: '📬' },
-  ];
-
-  const [hoveredLink, setHoveredLink] = useState(null);
-  const [email, setEmail] = useState('');
-
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    // Handle newsletter signup
-    console.log('Newsletter signup:', email);
-    setEmail('');
   };
 
   return (
     <footer style={styles.footer}>
-      {/* Decorative elements */}
       <div style={styles.decoration}></div>
       <div style={styles.decoration2}></div>
 
       <div style={styles.container}>
-        {/* Main Content */}
         <div style={styles.mainContent}>
-          {/* Brand Column with Stats */}
           <div style={styles.brandSection}>
             <div style={styles.logo}>
               <span style={styles.canvasPart}>Canvas</span>
@@ -265,11 +264,11 @@ const Footer = () => {
               <span style={styles.codePart}>Code</span>
             </div>
             <p style={styles.tagline}>
-              Where beautiful design meets powerful code. Creating digital experiences 
-              that grow businesses and delight users.
+              {isMobile 
+                ? "Beautiful design meets powerful code."
+                : "Where beautiful design meets powerful code. Creating digital experiences that grow businesses and delight users."}
             </p>
             
-            {/* Stats */}
             <div style={styles.statsContainer}>
               <div style={styles.statItem}>
                 <span style={styles.statNumber}>15+</span>
@@ -286,7 +285,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links Column */}
           <div>
             <h4 style={styles.sectionTitle}>Quick Links</h4>
             <div style={styles.quickLinks}>
@@ -296,10 +294,10 @@ const Footer = () => {
                   href={link.href}
                   style={{
                     ...styles.quickLink,
-                    ...(hoveredLink === index ? styles.quickLinkHover : {}),
+                    ...(hoveredLink === index && !isMobile ? styles.quickLinkHover : {}),
                   }}
-                  onMouseEnter={() => setHoveredLink(index)}
-                  onMouseLeave={() => setHoveredLink(null)}
+                  onMouseEnter={() => !isMobile && setHoveredLink(index)}
+                  onMouseLeave={() => !isMobile && setHoveredLink(null)}
                 >
                   <span>{link.icon}</span>
                   {link.name}
@@ -310,31 +308,31 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter Section */}
         <div style={styles.newsletterContainer}>
           <h5 style={styles.newsletterTitle}>Stay in the loop</h5>
           <p style={styles.newsletterText}>
-            Get monthly insights on design, development, and creative business.
+            {isMobile 
+              ? "Get monthly insights on design & dev." 
+              : "Get monthly insights on design, development, and creative business."}
           </p>
           <form style={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder={isMobile ? "Your email" : "Enter your email"}
               style={styles.newsletterInput}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <button type="submit" style={styles.newsletterButton}>
-              Subscribe
+              {isMobile ? "Subscribe" : "Subscribe"}
             </button>
           </form>
         </div>
 
-        {/* Bottom Bar */}
         <div style={styles.bottomBar}>
           <div style={styles.copyright}>
-            © {currentYear} Canvas & Code. Crafted with precision and passion.
+            © {currentYear} Canvas & Code. {isMobile ? "" : "Crafted with precision and passion."}
           </div>
         </div>
       </div>

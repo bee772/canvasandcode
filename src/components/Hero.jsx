@@ -1,26 +1,41 @@
 // src/components/Hero.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/theme';
 import Button from './UI/Button';
 
 const Hero = () => {
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth <= 480;
+  const isTablet = windowWidth > 480 && windowWidth <= 768;
+
   const styles = {
     section: {
       backgroundColor: theme.colors.linen,
-      padding: '4rem 2rem',
+      padding: isMobile ? '2rem 1rem' : isTablet ? '3rem 1.5rem' : '4rem 2rem',
     },
     container: {
       maxWidth: '1200px',
       margin: '0 auto',
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: '4rem',
+      gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr' : '1fr 1fr',
+      gap: isMobile ? '2rem' : isTablet ? '3rem' : '4rem',
       alignItems: 'center',
     },
+    contentColumn: {
+      textAlign: isMobile ? 'center' : 'left',
+    },
     headline: {
-      fontSize: '3.5rem',
+      fontSize: isMobile ? '2.2rem' : isTablet ? '2.8rem' : '3.5rem',
       lineHeight: '1.2',
-      marginBottom: '1.5rem',
+      marginBottom: isMobile ? '1rem' : '1.5rem',
+      fontWeight: '700',
     },
     art: {
       color: theme.colors.brickRed,
@@ -32,67 +47,71 @@ const Hero = () => {
       fontFamily: theme.fonts.code,
     },
     subhead: {
-      fontSize: '1.2rem',
+      fontSize: isMobile ? '1rem' : isTablet ? '1.1rem' : '1.2rem',
       color: theme.colors.obsidian,
       opacity: '0.8',
-      marginBottom: '2rem',
+      marginBottom: isMobile ? '1.5rem' : '2rem',
       fontFamily: theme.fonts.body,
       lineHeight: '1.6',
+      padding: isMobile ? '0 0.5rem' : 0,
     },
     buttonGroup: {
       display: 'flex',
-      gap: '1rem',
+      gap: isMobile ? '1rem' : '1rem',
+      justifyContent: isMobile ? 'center' : 'flex-start',
+      flexWrap: 'wrap',
     },
     illustration: {
-      /* use a translucent background instead of applying opacity to the whole container
-         so the img inside remains fully opaque */
       backgroundColor: 'rgba(40,85,189,0.1)',
-      height: '400px',
+      height: isMobile ? '250px' : isTablet ? '350px' : '400px',
       borderRadius: '8px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: '2rem',
       color: theme.colors.slateBlue,
+      overflow: 'hidden',
     },
-    // Mobile
-    '@media (max-width: 768px)': {
-      container: {
-        gridTemplateColumns: '1fr',
-        gap: '2rem',
-      },
-      headline: {
-        fontSize: '2.5rem',
-      },
+    image: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      borderRadius: '8px',
     },
   };
 
   return (
     <section style={styles.section}>
       <div style={styles.container}>
-        <div>
+        <div style={styles.contentColumn}>
           <h1 style={styles.headline}>
             Where <span style={styles.art}>Art</span> Meets{' '}
             <span style={styles.algorithm}>Algorithm</span>
           </h1>
           <p style={styles.subhead}>
-            I build websites that are beautiful to look at and powerful enough 
-            to grow your business. Design-driven development, delivered.
+            {isMobile 
+              ? "I build websites that are beautiful to look at and powerful enough to grow your business."
+              : "I build websites that are beautiful to look at and powerful enough to grow your business. Design-driven development, delivered."}
           </p>
           <div style={styles.buttonGroup}>
             <a href="#work" style={{ textDecoration: 'none' }}>
-            <Button variant="primary">View My Work</Button>
-          </a>
-          <a href="#apply" style={{ textDecoration: 'none' }}>
-            <Button variant="secondary">Let's Talk</Button>
-          </a>
+              <Button variant="primary" size={isMobile ? "medium" : "large"}>
+                {isMobile ? "View Work" : "View My Work"}
+              </Button>
+            </a>
+            <a href="#apply" style={{ textDecoration: 'none' }}>
+              <Button variant="secondary" size={isMobile ? "medium" : "large"}>
+                {isMobile ? "Let's Talk" : "Let's Talk"}
+              </Button>
+            </a>
           </div>
         </div>
         <div style={styles.illustration}>
           <img 
             src="/images/profile.png"
             alt="Design and Development"
-            style={{ width: '100%', height: '100%', borderRadius: '8px' }}
+            style={styles.image}
+            loading="lazy"
           />
         </div>
       </div>

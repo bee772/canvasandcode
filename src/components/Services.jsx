@@ -1,31 +1,42 @@
 // src/components/Services.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/theme';
-import './Services.css'; // We'll create this for additional animations
+import './Services.css';
 
 const Services = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth <= 480;
+  const isTablet = windowWidth > 480 && windowWidth <= 768;
+  // isSmallDesktop removed since it's not used
 
   const canvasServices = [
     { 
       icon: '🎨', 
       title: 'UI/UX Design', 
-      desc: 'Beautiful, intuitive flows that users love',
+      desc: isMobile ? 'Intuitive flows users love' : 'Beautiful, intuitive flows that users love',
       features: ['User Research', 'Wireframing', 'Prototyping', 'User Testing'],
       color: theme.colors.brickRed
     },
     { 
       icon: '✏️', 
       title: 'Brand Identity', 
-      desc: 'Strategy & storytelling through design',
+      desc: isMobile ? 'Strategy & storytelling' : 'Strategy & storytelling through design',
       features: ['Logo Design', 'Color Theory', 'Typography', 'Brand Guidelines'],
       color: theme.colors.brickRed
     },
     { 
       icon: '🖌️', 
       title: 'Visual Design', 
-      desc: 'Color, layout, typography that pops',
+      desc: isMobile ? 'Design that pops' : 'Color, layout, typography that pops',
       features: ['UI Components', 'Design Systems', 'Responsive Design', 'Animation'],
       color: theme.colors.brickRed
     },
@@ -35,21 +46,21 @@ const Services = () => {
     { 
       icon: '💻', 
       title: 'Web Development', 
-      desc: 'Clean, semantic, performant code',
+      desc: isMobile ? 'Clean, performant code' : 'Clean, semantic, performant code',
       features: ['React/Next.js', 'Node.js', 'API Integration', 'Database Design'],
       color: theme.colors.slateBlue
     },
     { 
       icon: '🛒', 
       title: 'E-commerce', 
-      desc: 'Secure, scalable online stores',
+      desc: isMobile ? 'Secure online stores' : 'Secure, scalable online stores',
       features: ['Payment Integration', 'Inventory Management', 'Shopping Cart', 'Order Processing'],
       color: theme.colors.slateBlue
     },
     { 
       icon: '⚡', 
       title: 'Performance', 
-      desc: 'Speed & SEO optimization',
+      desc: isMobile ? 'Speed & SEO' : 'Speed & SEO optimization',
       features: ['Lighthouse Optimization', 'SEO Best Practices', 'Analytics Setup', 'Core Web Vitals'],
       color: theme.colors.slateBlue
     },
@@ -57,26 +68,32 @@ const Services = () => {
 
   const allServices = [...canvasServices, ...codeServices];
 
+  const getGridColumns = () => {
+    if (isMobile) return '1fr';
+    if (isTablet) return 'repeat(2, 1fr)';
+    return 'repeat(3, 1fr)';
+  };
+
   const styles = {
     section: {
-      padding: theme.spacing?.xxl || '6rem 2rem',
+      padding: isMobile ? '3rem 1rem' : isTablet ? '4rem 1.5rem' : '6rem 2rem',
       backgroundColor: theme.colors.white,
       position: 'relative',
       overflow: 'hidden',
     },
     container: {
-      maxWidth: theme.containerMaxWidth || '1200px',
+      maxWidth: '1200px',
       margin: '0 auto',
       position: 'relative',
       zIndex: 2,
+      padding: isMobile ? '0 0.5rem' : 0,
     },
-    // Decorative background elements
     decoration: {
       position: 'absolute',
       top: '-100px',
       right: '-50px',
-      width: '300px',
-      height: '300px',
+      width: isMobile ? '150px' : '300px',
+      height: isMobile ? '150px' : '300px',
       borderRadius: '50%',
       background: `radial-gradient(circle, ${theme.colors.brickRed}10, transparent 70%)`,
       zIndex: 1,
@@ -85,50 +102,52 @@ const Services = () => {
       position: 'absolute',
       bottom: '-150px',
       left: '-80px',
-      width: '400px',
-      height: '400px',
+      width: isMobile ? '200px' : '400px',
+      height: isMobile ? '200px' : '400px',
       borderRadius: '50%',
       background: `radial-gradient(circle, ${theme.colors.slateBlue}10, transparent 70%)`,
       zIndex: 1,
     },
     sectionTitle: {
       textAlign: 'center',
-      fontSize: 'clamp(2rem, 5vw, 2.8rem)',
+      fontSize: isMobile ? '2rem' : isTablet ? '2.4rem' : 'clamp(2rem, 5vw, 2.8rem)',
       marginBottom: '1rem',
       color: theme.colors.obsidian,
       fontFamily: theme.fonts.heading || theme.fonts.body,
       fontWeight: '700',
+      lineHeight: 1.3,
     },
     sectionSub: {
       textAlign: 'center',
       color: theme.colors.obsidian,
       opacity: '0.7',
-      marginBottom: '3rem',
-      fontSize: '1.1rem',
-      maxWidth: '600px',
+      marginBottom: isMobile ? '2rem' : '3rem',
+      fontSize: isMobile ? '0.95rem' : '1.1rem',
+      maxWidth: isMobile ? '100%' : '600px',
       marginLeft: 'auto',
       marginRight: 'auto',
+      padding: isMobile ? '0 1rem' : 0,
     },
-    // Tab navigation
     tabContainer: {
       display: 'flex',
       justifyContent: 'center',
-      gap: '1rem',
-      marginBottom: '3rem',
+      gap: isMobile ? '0.5rem' : '1rem',
+      marginBottom: isMobile ? '2rem' : '3rem',
       flexWrap: 'wrap',
     },
     tab: {
-      padding: '0.8rem 2rem',
-      borderRadius: theme.borderRadius?.xl || '50px',
+      padding: isMobile ? '0.6rem 1rem' : '0.8rem 2rem',
+      borderRadius: '50px',
       border: 'none',
       background: 'transparent',
       color: theme.colors.obsidian,
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.8rem' : '1rem',
       fontWeight: '600',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
       position: 'relative',
       overflow: 'hidden',
+      whiteSpace: 'nowrap',
     },
     tabActive: {
       background: `linear-gradient(135deg, ${theme.colors.brickRed}20, ${theme.colors.slateBlue}20)`,
@@ -145,18 +164,16 @@ const Services = () => {
       transform: 'scaleX(0)',
       transition: 'transform 0.3s ease',
     },
-    // Grid layout
     grid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '2rem',
+      gridTemplateColumns: getGridColumns(),
+      gap: isMobile ? '1rem' : '2rem',
       marginBottom: '3rem',
     },
-    // Card styles
     card: {
-      padding: '2rem',
+      padding: isMobile ? '1.5rem' : '2rem',
       backgroundColor: theme.colors.linen,
-      borderRadius: theme.borderRadius?.lg || '16px',
+      borderRadius: isMobile ? '12px' : '16px',
       transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       position: 'relative',
       overflow: 'hidden',
@@ -170,10 +187,9 @@ const Services = () => {
       borderTop: `4px solid ${theme.colors.slateBlue}`,
     },
     cardHover: {
-      transform: 'translateY(-10px)',
+      transform: isMobile ? 'none' : 'translateY(-10px)',
       boxShadow: theme.shadows?.xl || '0 20px 40px rgba(0,0,0,0.1)',
     },
-    // Card shine effect
     cardShine: {
       position: 'absolute',
       top: 0,
@@ -186,15 +202,15 @@ const Services = () => {
       pointerEvents: 'none',
     },
     icon: {
-      fontSize: '3rem',
-      marginBottom: '1.5rem',
+      fontSize: isMobile ? '2.5rem' : '3rem',
+      marginBottom: isMobile ? '1rem' : '1.5rem',
       display: 'inline-block',
       position: 'relative',
       zIndex: 2,
     },
     cardTitle: {
-      fontSize: '1.5rem',
-      marginBottom: '1rem',
+      fontSize: isMobile ? '1.2rem' : '1.5rem',
+      marginBottom: '0.8rem',
       color: theme.colors.obsidian,
       fontFamily: theme.fonts.heading || theme.fonts.body,
       fontWeight: '600',
@@ -205,12 +221,11 @@ const Services = () => {
       color: theme.colors.obsidian,
       opacity: '0.7',
       lineHeight: '1.7',
-      marginBottom: '1.5rem',
-      fontSize: '1rem',
+      marginBottom: isMobile ? '1rem' : '1.5rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       position: 'relative',
       zIndex: 2,
     },
-    // Features list
     featuresList: {
       listStyle: 'none',
       padding: 0,
@@ -225,7 +240,7 @@ const Services = () => {
       display: 'flex',
       alignItems: 'center',
       gap: '0.8rem',
-      fontSize: '0.95rem',
+      fontSize: isMobile ? '0.85rem' : '0.95rem',
       color: theme.colors.obsidian,
       opacity: '0.8',
       transform: 'translateX(0)',
@@ -238,13 +253,12 @@ const Services = () => {
       background: (color) => color,
       display: 'inline-block',
     },
-    // Row labels (for original layout)
     rowLabel: {
       display: 'flex',
       alignItems: 'center',
       gap: '0.8rem',
       marginBottom: '2rem',
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.2rem' : '1.3rem',
       fontWeight: '600',
       fontFamily: theme.fonts.heading || theme.fonts.body,
     },
@@ -258,144 +272,132 @@ const Services = () => {
       borderLeft: `4px solid ${theme.colors.slateBlue}`,
       paddingLeft: '1rem',
     },
-    // CTA section
     ctaContainer: {
       textAlign: 'center',
       marginTop: '4rem',
-      padding: '3rem',
+      padding: isMobile ? '2rem 1rem' : '3rem',
       background: `linear-gradient(135deg, ${theme.colors.brickRed}10, ${theme.colors.slateBlue}10)`,
-      borderRadius: theme.borderRadius?.xl || '24px',
+      borderRadius: isMobile ? '16px' : '24px',
       position: 'relative',
       overflow: 'hidden',
     },
     ctaTitle: {
-      fontSize: '1.8rem',
+      fontSize: isMobile ? '1.4rem' : '1.8rem',
       marginBottom: '1rem',
       color: theme.colors.obsidian,
       fontWeight: '700',
+      lineHeight: 1.3,
     },
     ctaText: {
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '0.95rem' : '1.1rem',
       opacity: 0.8,
       marginBottom: '2rem',
-      maxWidth: '600px',
+      maxWidth: isMobile ? '100%' : '600px',
       marginLeft: 'auto',
       marginRight: 'auto',
+      padding: isMobile ? '0 0.5rem' : 0,
     },
     ctaButton: {
-      padding: '1rem 3rem',
-      fontSize: '1.1rem',
+      padding: isMobile ? '0.8rem 2rem' : '1rem 3rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       fontWeight: '600',
       background: `linear-gradient(135deg, ${theme.colors.brickRed}, ${theme.colors.slateBlue})`,
       color: theme.colors.white,
       border: 'none',
-      borderRadius: theme.borderRadius?.xl || '50px',
+      borderRadius: '50px',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
       boxShadow: theme.shadows?.md || '0 4px 6px rgba(0,0,0,0.1)',
       position: 'relative',
       zIndex: 2,
-    },
-    // Media queries
-    '@media (max-width: 768px)': {
-      section: {
-        padding: '3rem 1rem',
-      },
-      ctaContainer: {
-        padding: '2rem 1rem',
-      },
-      tab: {
-        padding: '0.6rem 1.5rem',
-      },
+      width: isMobile ? '100%' : 'auto',
+      maxWidth: '300px',
     },
   };
 
-  // Filter services based on active tab
-  const getFilteredServices = () => {
-    switch(activeTab) {
-      case 'canvas':
-        return canvasServices;
-      case 'code':
-        return codeServices;
-      default:
-        return allServices;
-    }
-  };
-
-  const filteredServices = getFilteredServices();
+  const filteredServices = activeTab === 'all' ? allServices : 
+                          activeTab === 'canvas' ? canvasServices : codeServices;
 
   return (
     <section style={styles.section} id="services">
-      {/* Decorative elements */}
       <div style={styles.decoration}></div>
       <div style={styles.decoration2}></div>
 
       <div style={styles.container}>
         <h2 style={styles.sectionTitle}>What I Build</h2>
         <p style={styles.sectionSub}>
-          From concept to code, I deliver complete digital solutions 
-          that combine beautiful design with powerful functionality
+          {isMobile 
+            ? "Complete digital solutions combining design with functionality"
+            : "From concept to code, I deliver complete digital solutions that combine beautiful design with powerful functionality"}
         </p>
 
-        {/* Tab Navigation */}
         <div style={styles.tabContainer}>
-          <button
-            style={{
-              ...styles.tab,
-              ...(activeTab === 'all' ? styles.tabActive : {}),
-            }}
-            onClick={() => setActiveTab('all')}
-            onMouseEnter={(e) => {
-              e.currentTarget.querySelector('.tab-indicator').style.transform = 'scaleX(1)';
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== 'all') {
-                e.currentTarget.querySelector('.tab-indicator').style.transform = 'scaleX(0)';
-              }
-            }}
-          >
-            All Services
-            <span className="tab-indicator" style={styles.tabIndicator}></span>
-          </button>
-          <button
-            style={{
-              ...styles.tab,
-              ...(activeTab === 'canvas' ? styles.tabActive : {}),
-            }}
-            onClick={() => setActiveTab('canvas')}
-            onMouseEnter={(e) => {
-              e.currentTarget.querySelector('.tab-indicator').style.transform = 'scaleX(1)';
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== 'canvas') {
-                e.currentTarget.querySelector('.tab-indicator').style.transform = 'scaleX(0)';
-              }
-            }}
-          >
-            🎨 The Canvas (Design)
-            <span className="tab-indicator" style={styles.tabIndicator}></span>
-          </button>
-          <button
-            style={{
-              ...styles.tab,
-              ...(activeTab === 'code' ? styles.tabActive : {}),
-            }}
-            onClick={() => setActiveTab('code')}
-            onMouseEnter={(e) => {
-              e.currentTarget.querySelector('.tab-indicator').style.transform = 'scaleX(1)';
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== 'code') {
-                e.currentTarget.querySelector('.tab-indicator').style.transform = 'scaleX(0)';
-              }
-            }}
-          >
-            💻 The Code (Development)
-            <span className="tab-indicator" style={styles.tabIndicator}></span>
-          </button>
+          {!isMobile && (
+            <>
+              <button
+                style={{
+                  ...styles.tab,
+                  ...(activeTab === 'all' ? styles.tabActive : {}),
+                }}
+                onClick={() => setActiveTab('all')}
+                onMouseEnter={(e) => {
+                  const indicator = e.currentTarget.querySelector('.tab-indicator');
+                  if (indicator) indicator.style.transform = 'scaleX(1)';
+                }}
+                onMouseLeave={(e) => {
+                  const indicator = e.currentTarget.querySelector('.tab-indicator');
+                  if (indicator && activeTab !== 'all') {
+                    indicator.style.transform = 'scaleX(0)';
+                  }
+                }}
+              >
+                All Services
+                <span className="tab-indicator" style={styles.tabIndicator}></span>
+              </button>
+              <button
+                style={{
+                  ...styles.tab,
+                  ...(activeTab === 'canvas' ? styles.tabActive : {}),
+                }}
+                onClick={() => setActiveTab('canvas')}
+                onMouseEnter={(e) => {
+                  const indicator = e.currentTarget.querySelector('.tab-indicator');
+                  if (indicator) indicator.style.transform = 'scaleX(1)';
+                }}
+                onMouseLeave={(e) => {
+                  const indicator = e.currentTarget.querySelector('.tab-indicator');
+                  if (indicator && activeTab !== 'canvas') {
+                    indicator.style.transform = 'scaleX(0)';
+                  }
+                }}
+              >
+                🎨 Design
+                <span className="tab-indicator" style={styles.tabIndicator}></span>
+              </button>
+              <button
+                style={{
+                  ...styles.tab,
+                  ...(activeTab === 'code' ? styles.tabActive : {}),
+                }}
+                onClick={() => setActiveTab('code')}
+                onMouseEnter={(e) => {
+                  const indicator = e.currentTarget.querySelector('.tab-indicator');
+                  if (indicator) indicator.style.transform = 'scaleX(1)';
+                }}
+                onMouseLeave={(e) => {
+                  const indicator = e.currentTarget.querySelector('.tab-indicator');
+                  if (indicator && activeTab !== 'code') {
+                    indicator.style.transform = 'scaleX(0)';
+                  }
+                }}
+              >
+                💻 Development
+                <span className="tab-indicator" style={styles.tabIndicator}></span>
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Services Grid */}
         <div style={styles.grid}>
           {filteredServices.map((service, index) => (
             <div
@@ -403,16 +405,15 @@ const Services = () => {
               style={{
                 ...styles.card,
                 ...(service.color === theme.colors.brickRed ? styles.cardCanvas : styles.cardCode),
-                ...(hoveredCard === `${service.title}-${index}` ? styles.cardHover : {}),
+                ...(hoveredCard === `${service.title}-${index}` && !isMobile ? styles.cardHover : {}),
               }}
-              onMouseEnter={() => setHoveredCard(`${service.title}-${index}`)}
-              onMouseLeave={() => setHoveredCard(null)}
+              onMouseEnter={() => !isMobile && setHoveredCard(`${service.title}-${index}`)}
+              onMouseLeave={() => !isMobile && setHoveredCard(null)}
             >
-              {/* Shine effect */}
               <div 
                 style={{
                   ...styles.cardShine,
-                  opacity: hoveredCard === `${service.title}-${index}` ? 1 : 0,
+                  opacity: hoveredCard === `${service.title}-${index}` && !isMobile ? 1 : 0,
                 }}
               ></div>
               
@@ -420,8 +421,7 @@ const Services = () => {
               <h3 style={styles.cardTitle}>{service.title}</h3>
               <p style={styles.cardDesc}>{service.desc}</p>
               
-              {/* Features list - appears on hover */}
-              {hoveredCard === `${service.title}-${index}` && (
+              {(hoveredCard === `${service.title}-${index}` || isMobile) && (
                 <ul style={styles.featuresList}>
                   {service.features.map((feature, idx) => (
                     <li key={idx} style={styles.featureItem}>
@@ -435,57 +435,32 @@ const Services = () => {
           ))}
         </div>
 
-        {/* Original layout with separate rows (optional, can be removed if you prefer the tabbed view) */}
-        {activeTab === 'all' && (
-          <>
-            <div style={{...styles.rowLabel, ...styles.canvasLabel}}>
-              <span>🎨 The Canvas (Design)</span>
-            </div>
-            <div style={styles.grid}>
-              {canvasServices.map((service, index) => (
-                <div key={index} style={{...styles.card, ...styles.cardCanvas}}>
-                  <div style={styles.icon}>{service.icon}</div>
-                  <h3 style={styles.cardTitle}>{service.title}</h3>
-                  <p style={styles.cardDesc}>{service.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            <div style={{...styles.rowLabel, ...styles.codeLabel, marginTop: '3rem'}}>
-              <span>💻 The Code (Development)</span>
-            </div>
-            <div style={styles.grid}>
-              {codeServices.map((service, index) => (
-                <div key={index} style={{...styles.card, ...styles.cardCode}}>
-                  <div style={styles.icon}>{service.icon}</div>
-                  <h3 style={styles.cardTitle}>{service.title}</h3>
-                  <p style={styles.cardDesc}>{service.desc}</p>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* CTA Section */}
         <div style={styles.ctaContainer}>
-          <h3 style={styles.ctaTitle}>Ready to Start Your Project?</h3>
+          <h3 style={styles.ctaTitle}>
+            {isMobile ? "Ready to Start?" : "Ready to Start Your Project?"}
+          </h3>
           <p style={styles.ctaText}>
-            Let's collaborate and bring your vision to life with the perfect blend 
-            of design and development.
+            {isMobile 
+              ? "Let's collaborate and bring your vision to life."
+              : "Let's collaborate and bring your vision to life with the perfect blend of design and development."}
           </p>
           <button 
             style={styles.ctaButton}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = theme.shadows?.xl || '0 20px 40px rgba(0,0,0,0.2)';
+              if (!isMobile) {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = theme.shadows?.xl || '0 20px 40px rgba(0,0,0,0.2)';
+              }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = theme.shadows?.md || '0 4px 6px rgba(0,0,0,0.1)';
+              if (!isMobile) {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = theme.shadows?.md || '0 4px 6px rgba(0,0,0,0.1)';
+              }
             }}
             onClick={() => window.location.href = '#apply'}
           >
-            Start Your Project
+            {isMobile ? "Start Project" : "Start Your Project"}
           </button>
         </div>
       </div>

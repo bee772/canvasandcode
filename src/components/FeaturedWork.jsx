@@ -1,11 +1,22 @@
 // src/components/FeaturedWork.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/theme';
-import './FeaturedWork.css'; // We'll create this for additional animations
+import './FeaturedWork.css';
 
 const FeaturedWork = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [imageErrors, setImageErrors] = useState({});
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth <= 480;
+  const isTablet = windowWidth > 480 && windowWidth <= 768;
+  // isSmallDesktop removed since it's not used
 
   const projects = [
     {
@@ -15,27 +26,33 @@ const FeaturedWork = () => {
       fallbackIcon: '🛒',
       color: theme.colors.brickRed,
       link: 'https://click-crew.vercel.app/',
-      description: 'Modern e-commerce platform with seamless shopping experience',
+      description: isMobile 
+        ? 'Modern e-commerce platform' 
+        : 'Modern e-commerce platform with seamless shopping experience',
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
     },
     {
       title: 'Let Us Buy 365',
-      category: 'E-commerce Affiliate Platform',
+      category: isMobile ? 'E-commerce Affiliate' : 'E-commerce Affiliate Platform',
       image: '/images/Let Us Buy Logo.png',
       fallbackIcon: '🛍️',
       color: theme.colors.slateBlue,
       link: 'https://letusbuy.vercel.app/',
-      description: 'Affiliate marketing platform connecting buyers with sellers',
+      description: isMobile
+        ? 'Affiliate marketing platform'
+        : 'Affiliate marketing platform connecting buyers with sellers',
       technologies: ['Next.js', 'Express', 'PostgreSQL', 'AWS'],
     },
     {
       title: 'Creative Studio',
-      category: 'Portfolio + CMS',
+      category: isMobile ? 'Portfolio + CMS' : 'Portfolio + CMS',
       image: '/images/creative-studio.jpg',
       fallbackIcon: '📸',
       color: theme.colors.brickRed,
       link: '#',
-      description: 'Dynamic portfolio website with content management system',
+      description: isMobile
+        ? 'Dynamic portfolio website'
+        : 'Dynamic portfolio website with content management system',
       technologies: ['React', 'Sanity.io', 'Tailwind CSS', 'Vercel'],
     },
   ];
@@ -47,26 +64,38 @@ const FeaturedWork = () => {
     }));
   };
 
+  const getGridColumns = () => {
+    if (isMobile) return '1fr';
+    if (isTablet) return 'repeat(2, 1fr)';
+    return 'repeat(3, 1fr)';
+  };
+
+  const getCardPadding = () => {
+    if (isMobile) return '1rem';
+    if (isTablet) return '1.5rem';
+    return '1.8rem';
+  };
+
   const styles = {
     section: {
-      padding: theme.spacing?.xxl || '6rem 2rem',
+      padding: isMobile ? '3rem 1rem' : isTablet ? '4rem 1.5rem' : '6rem 2rem',
       backgroundColor: theme.colors.linen,
       position: 'relative',
       overflow: 'hidden',
     },
     container: {
-      maxWidth: theme.containerMaxWidth || '1200px',
+      maxWidth: '1200px',
       margin: '0 auto',
       position: 'relative',
       zIndex: 2,
+      padding: isMobile ? '0 0.5rem' : 0,
     },
-    // Decorative background elements
     decoration: {
       position: 'absolute',
       top: '-50px',
       right: '-50px',
-      width: '300px',
-      height: '300px',
+      width: isMobile ? '150px' : '300px',
+      height: isMobile ? '150px' : '300px',
       borderRadius: '50%',
       background: `radial-gradient(circle, ${theme.colors.brickRed}15, transparent 70%)`,
       zIndex: 1,
@@ -75,38 +104,41 @@ const FeaturedWork = () => {
       position: 'absolute',
       bottom: '-100px',
       left: '-100px',
-      width: '400px',
-      height: '400px',
+      width: isMobile ? '200px' : '400px',
+      height: isMobile ? '200px' : '400px',
       borderRadius: '50%',
       background: `radial-gradient(circle, ${theme.colors.slateBlue}15, transparent 70%)`,
       zIndex: 1,
     },
     title: {
       textAlign: 'center',
-      fontSize: 'clamp(2rem, 5vw, 2.8rem)',
+      fontSize: isMobile ? '2rem' : isTablet ? '2.4rem' : 'clamp(2rem, 5vw, 2.8rem)',
       marginBottom: '1rem',
       color: theme.colors.obsidian,
       fontFamily: theme.fonts.heading || theme.fonts.body,
       fontWeight: '700',
+      lineHeight: 1.3,
+      padding: isMobile ? '0 0.5rem' : 0,
     },
     subtitle: {
       textAlign: 'center',
-      fontSize: '1.1rem',
-      marginBottom: '3rem',
+      fontSize: isMobile ? '0.95rem' : '1.1rem',
+      marginBottom: isMobile ? '2rem' : '3rem',
       color: theme.colors.obsidian,
       opacity: 0.7,
-      maxWidth: '600px',
+      maxWidth: isMobile ? '100%' : '600px',
       marginLeft: 'auto',
       marginRight: 'auto',
+      padding: isMobile ? '0 1rem' : 0,
     },
     grid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-      gap: '2rem',
+      gridTemplateColumns: getGridColumns(),
+      gap: isMobile ? '1.5rem' : isTablet ? '1.5rem' : '2rem',
     },
     card: {
       backgroundColor: theme.colors.white,
-      borderRadius: theme.borderRadius?.lg || '16px',
+      borderRadius: isMobile ? '12px' : '16px',
       overflow: 'hidden',
       boxShadow: theme.shadows?.md || '0 4px 6px rgba(0,0,0,0.1)',
       transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
@@ -116,7 +148,7 @@ const FeaturedWork = () => {
     },
     imageWrapper: {
       position: 'relative',
-      height: '280px',
+      height: isMobile ? '200px' : isTablet ? '240px' : '280px',
       overflow: 'hidden',
       backgroundColor: theme.colors.slateBlue + '20',
     },
@@ -133,7 +165,7 @@ const FeaturedWork = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      fontSize: '5rem',
+      fontSize: isMobile ? '3rem' : '5rem',
       backgroundColor: (color) => color + '20',
       color: (color) => color,
     },
@@ -148,7 +180,7 @@ const FeaturedWork = () => {
       transition: 'opacity 0.4s ease',
       display: 'flex',
       alignItems: 'flex-end',
-      padding: '2rem',
+      padding: isMobile ? '1rem' : '2rem',
     },
     overlayContent: {
       transform: 'translateY(20px)',
@@ -156,7 +188,7 @@ const FeaturedWork = () => {
       color: 'white',
     },
     overlayTitle: {
-      fontSize: '1.5rem',
+      fontSize: isMobile ? '1.2rem' : '1.5rem',
       fontWeight: '600',
       marginBottom: '0.5rem',
     },
@@ -166,25 +198,26 @@ const FeaturedWork = () => {
       gap: '0.5rem',
       color: 'white',
       textDecoration: 'none',
-      fontSize: '0.95rem',
+      fontSize: isMobile ? '0.85rem' : '0.95rem',
       borderBottom: '2px solid white',
       paddingBottom: '0.2rem',
     },
     content: {
-      padding: '1.8rem',
+      padding: getCardPadding(),
     },
     projectTitle: {
-      fontSize: '1.4rem',
+      fontSize: isMobile ? '1.2rem' : '1.4rem',
       marginBottom: '0.5rem',
       color: theme.colors.obsidian,
       fontFamily: theme.fonts.heading || theme.fonts.body,
       fontWeight: '600',
+      lineHeight: 1.3,
     },
     category: {
       color: theme.colors.obsidian,
       opacity: '0.6',
       marginBottom: '1rem',
-      fontSize: '0.9rem',
+      fontSize: isMobile ? '0.8rem' : '0.9rem',
       textTransform: 'uppercase',
       letterSpacing: '1px',
     },
@@ -192,7 +225,7 @@ const FeaturedWork = () => {
       color: theme.colors.obsidian,
       opacity: '0.8',
       marginBottom: '1.5rem',
-      fontSize: '0.95rem',
+      fontSize: isMobile ? '0.9rem' : '0.95rem',
       lineHeight: '1.6',
     },
     techStack: {
@@ -202,11 +235,11 @@ const FeaturedWork = () => {
       marginBottom: '1.5rem',
     },
     techTag: {
-      padding: '0.3rem 0.8rem',
+      padding: isMobile ? '0.2rem 0.6rem' : '0.3rem 0.8rem',
       backgroundColor: (color) => color + '15',
       color: (color) => color,
-      borderRadius: theme.borderRadius?.sm || '20px',
-      fontSize: '0.8rem',
+      borderRadius: '20px',
+      fontSize: isMobile ? '0.7rem' : '0.8rem',
       fontWeight: '500',
       border: `1px solid ${(color) => color}30`,
     },
@@ -218,25 +251,27 @@ const FeaturedWork = () => {
       alignItems: 'center',
       gap: '0.5rem',
       transition: 'all 0.3s ease',
-      fontSize: '0.95rem',
+      fontSize: isMobile ? '0.9rem' : '0.95rem',
       borderBottom: `2px solid transparent`,
       paddingBottom: '0.2rem',
     },
-    // Stats section
     statsContainer: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: '2rem',
-      marginTop: '4rem',
-      padding: '3rem',
+      gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)',
+      gap: isMobile ? '1rem' : '2rem',
+      marginTop: isMobile ? '2.5rem' : '4rem',
+      padding: isMobile ? '1.5rem' : isTablet ? '2rem' : '3rem',
       background: `linear-gradient(135deg, ${theme.colors.brickRed}10, ${theme.colors.slateBlue}10)`,
-      borderRadius: theme.borderRadius?.xl || '24px',
+      borderRadius: isMobile ? '16px' : '24px',
     },
     statItem: {
       textAlign: 'center',
+      padding: isMobile ? '1rem' : 0,
+      backgroundColor: isMobile ? 'rgba(255,255,255,0.5)' : 'transparent',
+      borderRadius: isMobile ? '8px' : 0,
     },
     statNumber: {
-      fontSize: '2.5rem',
+      fontSize: isMobile ? '2rem' : '2.5rem',
       fontWeight: '700',
       color: theme.colors.brickRed,
       fontFamily: theme.fonts.code,
@@ -244,45 +279,24 @@ const FeaturedWork = () => {
       marginBottom: '0.5rem',
     },
     statLabel: {
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       opacity: 0.7,
       textTransform: 'uppercase',
       letterSpacing: '1px',
-    },
-    '@media (max-width: 968px)': {
-      grid: {
-        gridTemplateColumns: 'repeat(2, 1fr)',
-      },
-      statsContainer: {
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        padding: '2rem',
-      },
-    },
-    '@media (max-width: 768px)': {
-      grid: {
-        gridTemplateColumns: '1fr',
-      },
-      statsContainer: {
-        gridTemplateColumns: '1fr',
-        gap: '1.5rem',
-      },
-      section: {
-        padding: '3rem 1rem',
-      },
     },
   };
 
   return (
     <section style={styles.section} id="work">
-      {/* Decorative elements */}
       <div style={styles.decoration}></div>
       <div style={styles.decoration2}></div>
 
       <div style={styles.container}>
         <h2 style={styles.title}>Featured Work</h2>
         <p style={styles.subtitle}>
-          Explore some of my recent projects, each crafted with attention to detail 
-          and focused on delivering exceptional user experiences.
+          {isMobile 
+            ? "Recent projects I've crafted" 
+            : "Explore some of my recent projects, each crafted with attention to detail and focused on delivering exceptional user experiences."}
         </p>
 
         <div style={styles.grid}>
@@ -291,15 +305,15 @@ const FeaturedWork = () => {
               key={index}
               style={{
                 ...styles.card,
-                transform: hoveredCard === index ? 'translateY(-10px)' : 'translateY(0)',
-                boxShadow: hoveredCard === index 
+                transform: hoveredCard === index && !isMobile ? 'translateY(-10px)' : 'translateY(0)',
+                boxShadow: hoveredCard === index && !isMobile
                   ? theme.shadows?.xl || '0 20px 40px rgba(0,0,0,0.2)'
                   : theme.shadows?.md || '0 4px 6px rgba(0,0,0,0.1)',
               }}
-              onMouseEnter={() => setHoveredCard(index)}
-              onMouseLeave={() => setHoveredCard(null)}
+              onMouseEnter={() => !isMobile && setHoveredCard(index)}
+              onMouseLeave={() => !isMobile && setHoveredCard(null)}
+              onClick={() => isMobile && window.open(project.link, '_blank')}
             >
-              {/* Image Container */}
               <div style={styles.imageWrapper}>
                 {!imageErrors[index] ? (
                   <img
@@ -307,7 +321,7 @@ const FeaturedWork = () => {
                     alt={project.title}
                     style={{
                       ...styles.image,
-                      transform: hoveredCard === index ? 'scale(1.1)' : 'scale(1)',
+                      transform: hoveredCard === index && !isMobile ? 'scale(1.1)' : 'scale(1)',
                     }}
                     onError={() => handleImageError(index)}
                     loading="lazy"
@@ -322,38 +336,37 @@ const FeaturedWork = () => {
                   </div>
                 )}
 
-                {/* Hover Overlay */}
-                <div style={{
-                  ...styles.overlay,
-                  opacity: hoveredCard === index ? 1 : 0,
-                }}>
+                {!isMobile && (
                   <div style={{
-                    ...styles.overlayContent,
-                    transform: hoveredCard === index ? 'translateY(0)' : 'translateY(20px)',
+                    ...styles.overlay,
+                    opacity: hoveredCard === index ? 1 : 0,
                   }}>
-                    <h4 style={styles.overlayTitle}>View Project</h4>
-                    <a 
-                      href={project.link}
-                      style={styles.overlayLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      Live Demo <span>→</span>
-                    </a>
+                    <div style={{
+                      ...styles.overlayContent,
+                      transform: hoveredCard === index ? 'translateY(0)' : 'translateY(20px)',
+                    }}>
+                      <h4 style={styles.overlayTitle}>View Project</h4>
+                      <a 
+                        href={project.link}
+                        style={styles.overlayLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Live Demo <span>→</span>
+                      </a>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
-              {/* Content */}
               <div style={styles.content}>
                 <h3 style={styles.projectTitle}>{project.title}</h3>
                 <p style={styles.category}>{project.category}</p>
                 <p style={styles.description}>{project.description}</p>
 
-                {/* Tech Stack */}
                 <div style={styles.techStack}>
-                  {project.technologies.map((tech, idx) => (
+                  {project.technologies.slice(0, isMobile ? 2 : 4).map((tech, idx) => (
                     <span
                       key={idx}
                       style={{
@@ -366,9 +379,11 @@ const FeaturedWork = () => {
                       {tech}
                     </span>
                   ))}
+                  {isMobile && project.technologies.length > 2 && (
+                    <span style={styles.techTag}>+{project.technologies.length - 2}</span>
+                  )}
                 </div>
 
-                {/* Project Link */}
                 <a
                   href={project.link}
                   style={{
@@ -378,15 +393,19 @@ const FeaturedWork = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.gap = '0.8rem';
-                    e.currentTarget.style.borderBottomColor = project.color;
+                    if (!isMobile) {
+                      e.currentTarget.style.gap = '0.8rem';
+                      e.currentTarget.style.borderBottomColor = project.color;
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.gap = '0.5rem';
-                    e.currentTarget.style.borderBottomColor = 'transparent';
+                    if (!isMobile) {
+                      e.currentTarget.style.gap = '0.5rem';
+                      e.currentTarget.style.borderBottomColor = 'transparent';
+                    }
                   }}
                 >
-                  View Case Study
+                  {isMobile ? 'View Project' : 'View Case Study'}
                   <span style={{ fontSize: '1.2rem' }}>→</span>
                 </a>
               </div>
@@ -394,19 +413,18 @@ const FeaturedWork = () => {
           ))}
         </div>
 
-        {/* Stats Section */}
         <div style={styles.statsContainer}>
           <div style={styles.statItem}>
             <span style={styles.statNumber}>15+</span>
-            <span style={styles.statLabel}>Projects Completed</span>
+            <span style={styles.statLabel}>Projects</span>
           </div>
           <div style={styles.statItem}>
             <span style={styles.statNumber}>15+</span>
-            <span style={styles.statLabel}>Happy Clients</span>
+            <span style={styles.statLabel}>Clients</span>
           </div>
           <div style={styles.statItem}>
             <span style={styles.statNumber}>2+</span>
-            <span style={styles.statLabel}>Years Experience</span>
+            <span style={styles.statLabel}>Years</span>
           </div>
         </div>
       </div>
