@@ -6,7 +6,6 @@ import './Footer.css';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [hoveredLink, setHoveredLink] = useState(null);
-  const [email, setEmail] = useState('');
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   useEffect(() => {
@@ -19,11 +18,7 @@ const Footer = () => {
   const isTablet = windowWidth > 480 && windowWidth <= 768;
   // isSmallDesktop removed since it's not used
 
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    console.log('Newsletter signup:', email);
-    setEmail('');
-  };
+  
 
   const quickLinks = [
     { name: 'Home', href: '#', icon: '🏠' },
@@ -315,19 +310,7 @@ const Footer = () => {
               ? "Get monthly insights on design & dev." 
               : "Get monthly insights on design, development, and creative business."}
           </p>
-          <form style={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
-            <input
-              type="email"
-              placeholder={isMobile ? "Your email" : "Enter your email"}
-              style={styles.newsletterInput}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <button type="submit" style={styles.newsletterButton}>
-              {isMobile ? "Subscribe" : "Subscribe"}
-            </button>
-          </form>
+          
         </div>
 
         <div style={styles.bottomBar}>
