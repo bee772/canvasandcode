@@ -44,15 +44,15 @@ const FeaturedWork = () => {
       technologies: ['Next.js', 'Express', 'PostgreSQL', 'AWS'],
     },
     {
-      title: 'Creative Studio',
+      title: 'Bible Safari Channel',
       category: isMobile ? 'Portfolio + CMS' : 'Portfolio + CMS',
-      image: '/images/creative-studio.jpg',
+      image: '/images/Logo.png',
       fallbackIcon: '📸',
       color: theme.colors.brickRed,
-      link: '#',
+      link: 'https://biblesafarichannel.vercel.app',
       description: isMobile
-        ? 'Dynamic portfolio website'
-        : 'Dynamic portfolio website with content management system',
+        ? 'Dynamic bible website'
+        : 'Dynamic bible website with content management system',
       technologies: ['React', 'Sanity.io', 'Tailwind CSS', 'Vercel'],
     },
   ];
