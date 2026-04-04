@@ -17,27 +17,9 @@ const defaultTestimonials = [
     image: "👨‍💼",
     rating: 5,
   },
-  {
-    quote: "I was amazed by how seamlessly they integrated complex functionality with beautiful design. The e-commerce platform they built for us has seen a 60% increase in conversions. Their support throughout the process was exceptional.",
-    author: "Brian Magothe",
-    title: "",
-    image: "👩‍🎨",
-    rating: 5,
-  },
-  {
-    quote: "A truly professional team that delivers exactly what they promise. The website they created for us is fast, modern, and user-friendly. Our bounce rate dropped significantly, and customer engagement has never been better.",
-    author: "Kamau Ndegwa",
-    title: "",
-    image: "👨‍💻",
-    rating: 5,
-  },
-  {
-    quote: "Canvas & Code brought our vision to life in ways we couldn't have imagined. The custom animations and intuitive UI have received countless compliments from our users. Highly recommended for anyone serious about their online presence.",
-    author: "Chloe Wanjiru",
-    title: "",
-    image: "👩‍💻",
-    rating: 5,
-  },
+  
+  
+  
 ];
 
 const Testimonial = () => {
