@@ -11,7 +11,7 @@ const defaultTestimonials = [
     rating: 5,
   },
   {
-    quote: "The level of professionalism and creativity brought to our project was outstanding. They didn't just build a website; they created a digital experience that our customers love. The responsive design works flawlessly across all devices, and the loading speed is impressive.",
+    quote: "The level of professionalism and creativity brought to our project was outstanding. They didn't just build a website; they created a digital experience that our customers love. The responsive design works flawlessly across all devices, and the loading speed is very impressive.",
     author: "Peter Mwangi",
     title: "",
     image: "👨‍💼",
